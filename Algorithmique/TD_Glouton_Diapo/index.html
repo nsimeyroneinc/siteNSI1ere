@@ -1,0 +1,2239 @@
+<!-- Ajout pour le bouton de téléchargement et le style des jupyter notebook   https://github.com/danielfrg/mkdocs-jupyter -->
+
+
+<!doctype html>
+<html lang="fr" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Cours et TD de l'année en cours">
+      
+      
+        <meta name="author" content="M.Meyroneinc-Condy">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>TD 22 - Algorithme glouton - Site NSI 1ére</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+      
+    
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#les-algorithmes-gloutons" class="md-skip">
+          Aller au contenu
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="En-tête">
+    <a href="../.." title="Site NSI 1ére" class="md-header__button md-logo" aria-label="Site NSI 1ére" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="m414.8 40.79-128 448.01c-4.9 17-22.6 26.8-39.6 22-17-4.9-26.8-22.6-22-39.6l128-447.99c4.9-16.994 22.6-26.834 39.6-21.978 17 4.855 26.8 22.568 22 39.558zm103.8 80.61 112 112c12.5 12.5 12.5 32.7 0 45.2l-112 112c-12.5 12.5-32.7 12.5-45.2 0s-12.5-32.7 0-45.2l89.3-89.4-89.3-89.4c-12.5-12.5-12.5-32.7 0-45.2s32.7-12.5 45.2 0zm-352 45.2L77.25 256l89.35 89.4c12.5 12.5 12.5 32.7 0 45.2s-32.7 12.5-45.2 0L9.372 278.6c-12.496-12.5-12.496-32.7 0-45.2l112.028-112c12.5-12.5 32.7-12.5 45.2 0s12.5 32.7 0 45.2z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Site NSI 1ére
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TD 22 - Algorithme glouton
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-label="Basculer en mode sombre"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Basculer en mode sombre" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="amber" data-md-color-accent="lime"  aria-label="Basculer en mode clair"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Basculer en mode clair" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Rechercher" placeholder="Rechercher" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Effacer" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initialisation de la recherche
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Onglets" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../.." class="md-tabs__link">
+      Accueil
+    </a>
+  </li>
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Type_Donnes_Bases/TP_Codage_Caracteres/" class="md-tabs__link">
+        T1 Types et valeurs de base
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Tableaux/TP07_TuplesTableauxCours/" class="md-tabs__link">
+        T2 Types construits
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../TraitementDonnees/TP19_Manipulation_et_traitement_de_fichier_CSV_Prof/" class="md-tabs__link">
+        T3 Rep. Des données
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../WEB/HTML_CSS/" class="md-tabs__link">
+        T4 I.H.M.
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Archi_Materielle/TD13_Reseaux/" class="md-tabs__link">
+        T5 Arch. Matérielle
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../BasesPython/TP04_BasesPython/" class="md-tabs__link">
+        T6 Prog.
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Tableaux/TD09_Parcours_Sequentiel_Tableaux_Corrige/" class="md-tabs__link">
+        T7 Algo.
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Tableaux/TD12_Les_Images/" class="md-tabs__link">
+        Transversal
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../Type_Donnes_Bases/DS_codage/" class="md-tabs__link">
+        Devoirs
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../Divers/Liens_utiles/" class="md-tabs__link">
+      Liens Utiles
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Site NSI 1ére" class="md-nav__button md-logo" aria-label="Site NSI 1ére" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="m414.8 40.79-128 448.01c-4.9 17-22.6 26.8-39.6 22-17-4.9-26.8-22.6-22-39.6l128-447.99c4.9-16.994 22.6-26.834 39.6-21.978 17 4.855 26.8 22.568 22 39.558zm103.8 80.61 112 112c12.5 12.5 12.5 32.7 0 45.2l-112 112c-12.5 12.5-32.7 12.5-45.2 0s-12.5-32.7 0-45.2l89.3-89.4-89.3-89.4c-12.5-12.5-12.5-32.7 0-45.2s32.7-12.5 45.2 0zm-352 45.2L77.25 256l89.35 89.4c12.5 12.5 12.5 32.7 0 45.2s-32.7 12.5-45.2 0L9.372 278.6c-12.496-12.5-12.496-32.7 0-45.2l112.028-112c12.5-12.5 32.7-12.5 45.2 0s12.5 32.7 0 45.2z"/></svg>
+
+    </a>
+    Site NSI 1ére
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Accueil
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          T1 Types et valeurs de base
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="T1 Types et valeurs de base" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          T1 Types et valeurs de base
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Type_Donnes_Bases/TP_Codage_Caracteres/" class="md-nav__link">
+        TP 16 - Codage caractères
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Type_Donnes_Bases/TP_Perseverance/" class="md-nav__link">
+        TP 17 Message Perseverance
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Type_Donnes_Bases/Exercices_Codages_Caracteres/" class="md-nav__link">
+        TP codage - révision
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Type_Donnes_Bases/TP_cesar/" class="md-nav__link">
+        TP 18 Codage de césar
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          T2 Types construits
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="T2 Types construits" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          T2 Types construits
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tableaux/TP07_TuplesTableauxCours/" class="md-nav__link">
+        TP 07 Les tableaux Cours
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tableaux/TP08_TuplesTableauxExercicesCorrige/" class="md-nav__link">
+        TP 08 Les tableaux Exercices
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Dictionnaire/TP15_Dictionnaires/" class="md-nav__link">
+        TP 15 Les Dictionnaires
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          T3 Rep. Des données
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="T3 Rep. Des données" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          T3 Rep. Des données
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TraitementDonnees/TP19_Manipulation_et_traitement_de_fichier_CSV_Prof/" class="md-nav__link">
+        TP 19 CSV - Correction
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../TraitementDonnees/TP20_Prof_Manipulation_fichier_CSV_avec_bibliotheque_Pandas/" class="md-nav__link">
+        TP 20 CSV et Pandas - Correction
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_5">
+          T4 I.H.M.
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="T4 I.H.M." data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          T4 I.H.M.
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WEB/HTML_CSS/" class="md-nav__link">
+        TD html et css
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../WEB/JS/" class="md-nav__link">
+        TD 14 JavaScript
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_6" type="checkbox" id="__nav_6" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_6">
+          T5 Arch. Matérielle
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="T5 Arch. Matérielle" data-md-level="1">
+        <label class="md-nav__title" for="__nav_6">
+          <span class="md-nav__icon md-icon"></span>
+          T5 Arch. Matérielle
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Archi_Materielle/TD13_Reseaux/" class="md-nav__link">
+        TP 13 Réseaux
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_7" type="checkbox" id="__nav_7" >
+      
+      
+      
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_7">
+          T6 Prog.
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="T6 Prog." data-md-level="1">
+        <label class="md-nav__title" for="__nav_7">
+          <span class="md-nav__icon md-icon"></span>
+          T6 Prog.
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BasesPython/TP04_BasesPython/" class="md-nav__link">
+        TP 04 - Les bases en Python
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../BasesPython/TP05_BasesPythonExercices-Corrige/" class="md-nav__link">
+        TP 05 - Les bases en Python/Exercices
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_8" type="checkbox" id="__nav_8" >
+      
+      
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_8">
+          T7 Algo.
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="T7 Algo." data-md-level="1">
+        <label class="md-nav__title" for="__nav_8">
+          <span class="md-nav__icon md-icon"></span>
+          T7 Algo.
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tableaux/TD09_Parcours_Sequentiel_Tableaux_Corrige/" class="md-nav__link">
+        TP 09 - Parcours séquentiel d'un tableau
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tableaux/TD10_Parcours_Sequentiel_Tableaux_Corrige/" class="md-nav__link">
+        TP 10 - Parcours séquentiel d'un tableau bis
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tableaux/TD11_Parcours_Sequentiel_Tableaux_Ter/" class="md-nav__link">
+        TP 11 - Parcours séquentiel d'un tableau ter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tri_insertion/" class="md-nav__link">
+        Tri par insertion
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Tri_selection/" class="md-nav__link">
+        Tri par selection
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Dichotomie.md" class="md-nav__link">
+        Dichotomie
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_9" type="checkbox" id="__nav_9" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_9">
+          Transversal
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Transversal" data-md-level="1">
+        <label class="md-nav__title" for="__nav_9">
+          <span class="md-nav__icon md-icon"></span>
+          Transversal
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Tableaux/TD12_Les_Images/" class="md-nav__link">
+        TP 12 - Les images
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_10" type="checkbox" id="__nav_10" >
+      
+      
+      
+        
+          
+        
+      
+      
+        <label class="md-nav__link" for="__nav_10">
+          Devoirs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Devoirs" data-md-level="1">
+        <label class="md-nav__title" for="__nav_10">
+          <span class="md-nav__icon md-icon"></span>
+          Devoirs
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Type_Donnes_Bases/DS_codage/" class="md-nav__link">
+        DS codage
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Divers/Liens_utiles/" class="md-nav__link">
+        Liens Utiles
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table des matières">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table des matières
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#probleme-doptimisation-le-voyageur" class="md-nav__link">
+    Problème d’optimisation : Le voyageur
+  </a>
+  
+    <nav class="md-nav" aria-label="Problème d’optimisation : Le voyageur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enonce-du-probleme" class="md-nav__link">
+    Enoncé du problème
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolution-du-probleme-par-la-force-brute" class="md-nav__link">
+    Résolution du problème par la force brute
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limite-de-cette-methode" class="md-nav__link">
+    Limite de cette méthode
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithmes-gloutons" class="md-nav__link">
+    Algorithmes Gloutons
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resolution-approchee-du-probleme-du-voyageur" class="md-nav__link">
+    Résolution approchée du problème du voyageur
+  </a>
+  
+    <nav class="md-nav" aria-label="Résolution approchée du problème du voyageur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#appliquons-la-methode-gloutonne-a-notre-probleme-de-voyageur" class="md-nav__link">
+    Appliquons la méthode gloutonne à notre problème de voyageur
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mise-en-oeuvre-python-capytale" class="md-nav__link">
+    Mise en oeuvre : Python - Capytale
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#qualite-de-lapproximation" class="md-nav__link">
+    Qualité de l’approximation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-force-brute-programme-a-titre-indicatif" class="md-nav__link">
+    Version force brute (programme à titre indicatif)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#probleme-rendu-de-monnaie" class="md-nav__link">
+    Problème : Rendu de monnaie
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lalgorithme-glouton" class="md-nav__link">
+    L'algorithme glouton
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#solution-et-solution-optimale" class="md-nav__link">
+    Solution et solution optimale
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#une-solution-optimale-locale" class="md-nav__link">
+    Une solution optimale locale
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implementation-de-lalgorithme-glouton-capytale" class="md-nav__link">
+    Implémentation de l'algorithme glouton Capytale
+  </a>
+  
+    <nav class="md-nav" aria-label="Implémentation de l'algorithme glouton Capytale">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#version-1-avec-uniquement-des-entiers-epreuve-pratique-de-bac" class="md-nav__link">
+    Version 1 : avec uniquement des entiers - Epreuve pratique de BAC.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#version-2-avec-les-centimes" class="md-nav__link">
+    Version 2 : Avec les centimes
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#le-probleme-du-sac-a-dos-knapsack-problem" class="md-nav__link">
+    Le problème du sac à dos (Knapsack Problem)
+  </a>
+  
+    <nav class="md-nav" aria-label="Le problème du sac à dos (Knapsack Problem)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#probleme" class="md-nav__link">
+    Problème :
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retour-sur-le-probleme-du-sac-a-dos" class="md-nav__link">
+    Retour sur le problème du sac à dos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#force-brute" class="md-nav__link">
+    Force brute
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22durees-poids-for-comb-in-combinaisons-poids_comb-0-duree-0-for-i-in-rangelenobjets-if-combi-1-poids_comb-objetsi1-duree-objetsi2-if-poids_comb-poids_max-duree-0-dureesappendduree-poidsappendpoids_comb-duree_max-maxdurees-meilleure_comb-combinaisonsdureesindexduree_max-poids_comb-poidsdureesindexduree_max-mot_sol-for-k-in-rangelenmeilleure_comb-if-meilleure_combk-1-mot_sol-objetsk0" class="md-nav__link">
+     1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22durees = [] 
+poids = []
+for comb in combinaisons :
+    poids_comb = 0
+    duree = 0
+    for i in range(len(objets)): 
+        if comb[i] == &#39;1&#39;:
+            poids_comb += objets[i][1]
+            duree += objets[i][2]
+    if poids_comb &gt; poids_max :
+        duree = 0
+    durees.append(duree)
+    poids.append(poids_comb)
+
+duree_max = max(durees)
+meilleure_comb = combinaisons[durees.index(duree_max)]
+poids_comb = poids[durees.index(duree_max)]
+
+mot_sol = &quot;&quot;
+for k in range(len(meilleure_comb)) :
+    if meilleure_comb[k] == &#39;1&#39; :
+        mot_sol += objets[k][0]
+
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+
+
+
+
+
+                
+
+
+<style>
+    :root {
+    --color-background: #91A3B0 !important;
+    --color-foreground: black !important;
+    --color-background-paginate : rgba(128,128,128,0.05);
+    --color-highlight-hover :  #FAF0E6 ;
+    font-size: 1.75rem;
+    border:10px;
+    padding: 40px;
+    }
+h1 {
+  /* background-color: rgb(161, 161, 172);
+  color:white;*/
+  font-family: @@font_name@@;
+  font-size: 3rem;
+  text-align:center;
+}
+h2 {
+  background-color: rgb(70, 70, 77);
+  color:white;
+  font-family: @@font_name@@;
+  font-size: 2.25rem;
+}
+h3 {
+    color: brown;
+    font-size: 1.75rem;
+}
+
+code 
+{
+  background: #778899;
+  color:white;
+}
+blockquote {
+  background: #ffedcc;
+  border-left: 15px solid #d1bf9d;
+  margin: 1.5em 15px;
+  padding: 0.5em 15px;
+}
+blockquote:before{
+  content: unset;
+}
+blockquote:after{
+  content: unset;
+}
+
+img[alt~="center"]{
+  display: block;
+  margin: 0 auto;
+}
+</style>
+
+<!-- footer: Contenu sous Licence Creative Commons BY-SA-->
+<!-- backgroundColor: #F2F3F4 -->
+
+<h1 id="les-algorithmes-gloutons">Les algorithmes gloutons<a class="headerlink" href="#les-algorithmes-gloutons" title="Permanent link">⚓︎</a></h1>
+<p><img alt="width:450 center" src="../data/monsieurGlouton.jpg" /></p>
+<hr />
+<h2 id="probleme-doptimisation-le-voyageur">Problème d’optimisation : Le voyageur<a class="headerlink" href="#probleme-doptimisation-le-voyageur" title="Permanent link">⚓︎</a></h2>
+<h3 id="enonce-du-probleme">Enoncé du problème<a class="headerlink" href="#enonce-du-probleme" title="Permanent link">⚓︎</a></h3>
+<blockquote>
+<p>Imaginons le problème suivant : 
+vous devez organiser la tournée de votre commercial. Il doit passer dans toutes les villes sous sa responsabilité (une fois uniquement) et revenir à son point de départ (Lille pour notre exemple). 
+Pour limiter les frais, il faut définir le trajet le moins long au total.</p>
+</blockquote>
+<p>Nous allons nous limiter à 5 villes uniquement ici.</p>
+<hr />
+<p><img alt="center" src="../data/France_5.png" /></p>
+<hr />
+<p>Voici le tableau des distances :</p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><strong>Brest</strong></th>
+<th align="center"><strong>Bordeaux</strong></th>
+<th align="center"><strong>Lille</strong></th>
+<th align="center"><strong>Lyon</strong></th>
+<th align="center"><strong>Paris</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><strong>Brest</strong></td>
+<td align="center">-</td>
+<td align="center">598</td>
+<td align="center">708</td>
+<td align="center">872</td>
+<td align="center">572</td>
+</tr>
+<tr>
+<td align="center"><strong>Bordeaux</strong></td>
+<td align="center">598</td>
+<td align="center">-</td>
+<td align="center">802</td>
+<td align="center">520</td>
+<td align="center">554</td>
+</tr>
+<tr>
+<td align="center"><strong>Lille</strong></td>
+<td align="center">708</td>
+<td align="center">802</td>
+<td align="center">-</td>
+<td align="center">650</td>
+<td align="center">225</td>
+</tr>
+<tr>
+<td align="center"><strong>Lyon</strong></td>
+<td align="center">872</td>
+<td align="center">520</td>
+<td align="center">650</td>
+<td align="center">-</td>
+<td align="center">465</td>
+</tr>
+<tr>
+<td align="center"><strong>Paris</strong></td>
+<td align="center">572</td>
+<td align="center">554</td>
+<td align="center">225</td>
+<td align="center">465</td>
+<td align="center">-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Question 1 :</strong><br />
+    Partons de Lille. 
+    - Combien de destinations différentes peut-on choisir ?<br />
+    - Combien de "chemin" possible ?</p>
+</blockquote>
+<hr />
+<p>Le problème se ramène à trouver un ordre de visite des quatre villes pour lequel la somme des distance données par ce tableau est aussi petite que possible.  <br />
+Une manière simple d'aborder le problème consiste à énumérer tous les cas possibles et calculer la distance  correspondante pour chacun des cas.  </p>
+<hr />
+<h3 id="resolution-du-probleme-par-la-force-brute">Résolution du problème par la force brute<a class="headerlink" href="#resolution-du-probleme-par-la-force-brute" title="Permanent link">⚓︎</a></h3>
+<blockquote>
+<p><strong>Question 2 : Résolution par force brute</strong>
+    Traiter le problème en faisant tous les cas de figure, à résumer dans un tableau et donner l'itinéraire le plus court</p>
+</blockquote>
+<p>Afficher tous les chemin avec la distance totale  </p>
+<ol>
+<li>Lille  -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km   </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+<li>Lille -&gt; ...   -&gt; ...-&gt; ...-&gt; ...-&gt; Lille     avec une distance totale de  ... km  </li>
+</ol>
+<hr />
+<p><em>Remarque</em><br />
+Les douze itinéraires correspondent chacun à l'un des douze itinéraire emprunté dans le sens inverse.</p>
+<blockquote>
+<p><strong>Question 3 :</strong>
+    Répondre au problème : quel est le trajet optimal. ?</p>
+</blockquote>
+<hr />
+<h3 id="limite-de-cette-methode">Limite de cette méthode<a class="headerlink" href="#limite-de-cette-methode" title="Permanent link">⚓︎</a></h3>
+<blockquote>
+<p><strong>Question 4 :</strong>
+    Reprenons le même problème en rajoutant Marseille.</p>
+</blockquote>
+<p><img alt="width:475 center" src="../data/france.png" /></p>
+<hr />
+<blockquote>
+<p><strong>Question 5 :</strong>
+    Dans ce cas, avec 6 villes, combien de cas faut-il étudier ? Qu'en pensez-vous ?</p>
+</blockquote>
+<hr />
+<p><strong>Réponse au problème :</strong></p>
+<blockquote>
+<p>Le plus petit trajet sera réalisé avec le parcours suivant (dans un sens ou dans l'autre) :<br />
+Lille -&gt; Paris -&gt; Lyon -&gt; Marseille -&gt; Bordeaux -&gt; Brest -&gt; Lille en 3 000 km</p>
+</blockquote>
+<p><img alt="width:450 center" src="../data/france_optimum.png" /></p>
+<hr />
+<p>Cette technique (répertorier tous les cas de figure et faire une étude exhaustive) n'est pas possible à grande échelle.<br />
+Déterminer le nombre d'itinéraires possibles :</p>
+<ul>
+<li>4 villes (hors ville de départ) on a : ... itinéraires possibles.  </li>
+<li>10 villes (hors ville de départ), nombre d'itinéraires à tester : .......  </li>
+<li>13 villes (hors ville de départ), nombre d'itinéraires à tester : .....  </li>
+<li>20 villes (hors ville de départ), nombre de parcours à tester :  .....   </li>
+</ul>
+<hr />
+<blockquote>
+<p>Correction
+    - 4 villes (hors ville de départ) on a : <span class="arithmatex">\(\dfrac{4 \times 3 \times 2 \times 1}{2}= 12\)</span> itinéraires possibles. 
+    - 10 villes (hors ville de départ), nombre d'itinéraires à tester : <span class="arithmatex">\(\dfrac{10 \times 9 \times 8 \times 7 \cdots \times 2 \times, 1}{2}=\)</span> 1 714 400
+    - 13 villes (hors ville de départ), nombre d'itinéraires à tester : <span class="arithmatex">\(\dfrac{13 \times 12 \cdots \times 2 \times, 1}{2}=\)</span> 3 113 510 400
+    - 20 villes (hors ville de départ), nombre de parcours à tester :  <span class="arithmatex">\(\dfrac{20 \times 19 \times 18 \times 17 \cdots \times 2 \times, 1}{2}=\)</span> 1 216 451 004 088 320 000  </p>
+</blockquote>
+<hr />
+<blockquote>
+<p>Face à de tels problèmes d'optimisation impossible à explorer exhaustivement, il peut être utile de connaître des algorithmes donnant rapidement une réponse qui, sans être nécessairement optimale, resterait bonne.</p>
+</blockquote>
+<p><strong>La méthode gloutonne</strong> que l'on va abordée dans ce TP donne une approche simple pour concevoir de tels algorithmes souvent approximatifs mais rapides.</p>
+<hr />
+<h2 id="algorithmes-gloutons">Algorithmes Gloutons<a class="headerlink" href="#algorithmes-gloutons" title="Permanent link">⚓︎</a></h2>
+<p>Nous avons vu que la force brute ne permet pas de résoudre (en un temps raisonnable) le problème du voyageur de commerce lorsqu'on augmente le nombre de villes.</p>
+<p>Maintenant que vous avez manipulé ce problème et vu à quel point il est complexe à résoudre, nous allons voir comment faire autrement.</p>
+<blockquote>
+<p><strong><em>Remarque</em></strong> : <strong>greedy algorithms</strong> en anglais, l'adjectif "greedy" signifiant avare/glouton.</p>
+</blockquote>
+<p>Les <strong><em>algorithmes gloutons</em></strong> sont utilisés pour répondre à des <strong><em>problèmes d'optimisation</em></strong>, c'est-à-dire des problèmes algorithmiques dans lesquels l'objectif est de trouver une solution " la meilleure possible " selon un critère, parmi un ensemble de solutions également valides mais potentiellement moins avantageuses.  </p>
+<hr />
+<p>Le contexte général d'un tel problème d'optimisation est donc le suivant :  </p>
+<ul>
+<li>on considère  un problème possédant un très grand nombre de solutions  </li>
+<li>on dispose d'une fonction mathématique évaluant la qualité de chaque solution  </li>
+<li>on cherche une solution qui soit bonne, voire meilleure.  </li>
+</ul>
+<p>Les algorithmes gloutons s'appliquent lorsque de plus :  </p>
+<ul>
+<li>la recherche d'une solution peut se ramener à une succession de choix qui produisent et précisent petit à petit une solution partielle  </li>
+<li>on dispose d'une fonction mathématique évaluant la qualité de chaque solution partielle (dont on attend qu'elle soit cohérente avec la fonction d'évaluation des solutions complètes).  </li>
+</ul>
+<hr />
+<blockquote>
+<p><img alt="width:200" src="../data/Farmeral_book_icon.png" /> Le <strong><em>principe d'un algorithme glouton</em></strong> est le suivant :<br />
+    - résoudre un problème étape par étape<br />
+    - à chaque étape, faire le choix optimal de moindre coût (de meilleur gain)  </p>
+</blockquote>
+<p>Le choix effectué à chaque étape n'est jamais remis en cause, ce qui fait que cette stratégie permet d'aboutir rapidement à une solution au problème de départ. C'est en ce sens que l'adjectif greedy (glouton/avare) caractérise ces algorithmes : ils terminent rapidement (glouton) sans fournir beaucoup d'efforts (avare).</p>
+<hr />
+<h2 id="resolution-approchee-du-probleme-du-voyageur">Résolution approchée du problème du voyageur<a class="headerlink" href="#resolution-approchee-du-probleme-du-voyageur" title="Permanent link">⚓︎</a></h2>
+<h3 id="appliquons-la-methode-gloutonne-a-notre-probleme-de-voyageur">Appliquons la méthode gloutonne à notre problème de voyageur<a class="headerlink" href="#appliquons-la-methode-gloutonne-a-notre-probleme-de-voyageur" title="Permanent link">⚓︎</a></h3>
+<p>Le problème peut se résumer à « quelle sera ma prochaine étape ».</p>
+<p><img alt="" src="../data/projet.jpeg" /></p>
+<p><strong>Méthode gloutonne :</strong><br />
+partant de la ville de départ, aller à la ville la plus proche, puis la ville la plus proche non visitée etc...</p>
+<hr />
+<blockquote>
+<p><strong>Question 6 :</strong>
+    Mettez en oeuvre cette méthode en partant de Lille.</p>
+</blockquote>
+<p><strong><em>Réponse</em></strong> :<br />
+Notre voyage fera donc <strong>.........</strong> kilomètres.<br />
+L’itinéraire ainsi obtenu est plus long que le circuit minimal de <strong>........</strong> kilomètres vu en introduction, mais reste loin des assez nombreuses mauvaises solutions. Et surtout, nous n’avons analysé qu’un unique itinéraire !</p>
+<h3 id="mise-en-oeuvre-python-capytale">Mise en oeuvre : Python - <a href="https://capytale2.ac-paris.fr/web/c/1352-489284">Capytale</a><a class="headerlink" href="#mise-en-oeuvre-python-capytale" title="Permanent link">⚓︎</a></h3>
+<hr />
+<p><strong>Principe du Programme :</strong> </p>
+<ul>
+<li>Les villes sont individuellement sous forme de dictionnaires avec les autres villes en clé et les distances correspondantes en durees. Un autre dictionnaire est créé pour regrouper l’ensemble des villes :</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="sd">&#39;&#39;&#39; Nous créons un dictionnaire les_villes qui va contenir des dictionnaires pour stocker les</span>
+<span class="sd">distances entre villes &#39;&#39;&#39;</span>
+
+<span class="n">brest</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">598</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">708</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">872</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">1130</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">572</span><span class="p">}</span>
+<span class="n">bordeaux</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">598</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">802</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">520</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">637</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">554</span><span class="p">}</span>
+<span class="n">lille</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">708</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">802</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">650</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">1002</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">225</span><span class="p">}</span>
+<span class="n">lyon</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">872</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">520</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">650</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">367</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">465</span><span class="p">}</span>
+<span class="n">marseille</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">1130</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">637</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">1002</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">367</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">777</span><span class="p">}</span>
+<span class="n">paris</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">572</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">554</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">225</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">465</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">777</span><span class="p">}</span>
+<span class="n">les_villes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="n">brest</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="n">bordeaux</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="n">lille</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="n">lyon</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="n">marseille</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="n">paris</span><span class="p">}</span>
+</code></pre></div>
+<hr />
+<ul>
+<li>Une fonction <code>plus_proche_voisin(ville,les_villes_voisines,Non_Visitees)</code>, qui renvoie le nom de la ville non encore visitée la plus proche ainsi que la distance correspondante.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">plus_proche_voisin</span><span class="p">(</span><span class="n">ville</span><span class="p">,</span><span class="n">les_villes_voisines</span><span class="p">,</span><span class="n">Non_Visitees</span><span class="p">):</span>
+       <span class="k">pass</span>
+
+<span class="n">ville</span><span class="o">=</span><span class="s1">&#39;Lille&#39;</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">plus_proche_voisin</span><span class="p">(</span><span class="n">ville</span><span class="p">,</span><span class="n">les_villes</span><span class="p">[</span><span class="n">ville</span><span class="p">],</span><span class="n">les_villes</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+</code></pre></div>
+<hr />
+<ul>
+<li>Une fonction principal <code>trajet</code> qui prend en paramètre la ville de départ,le dictionnaire des villes à visiter.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">trajet</span><span class="p">(</span><span class="n">depart</span><span class="p">,</span><span class="n">avisitees</span><span class="p">):</span>
+    <span class="n">Nvisitees</span><span class="o">=....</span>  <span class="c1">#on crée un tableau avec les villes à visiter</span>
+    <span class="n">taille</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">avisitees</span><span class="p">)</span>             
+    <span class="n">ville</span><span class="o">=</span><span class="n">depart</span>                                  
+    <span class="n">parcours</span><span class="o">=</span><span class="p">[</span><span class="n">depart</span><span class="p">]</span>  <span class="c1"># le parcours débute par la ville choisie</span>
+    <span class="n">distance</span><span class="o">=</span><span class="mi">0</span>         <span class="c1"># au départ la distance aprcourue est 0 </span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="o">.....</span><span class="p">):</span>
+        <span class="o">...........</span>   <span class="c1">#on enleve la ville déja visitée de la liste</span>
+
+        <span class="n">ville</span><span class="p">,</span><span class="n">dist</span><span class="o">=</span><span class="n">plus_proche_voisin</span><span class="p">(</span><span class="n">ville</span><span class="p">,</span><span class="n">avisitees</span><span class="p">[</span><span class="n">ville</span><span class="p">],</span><span class="n">Nvisitees</span><span class="p">)</span> <span class="c1">#on appelle la fonction plus proche voisin</span>
+
+        <span class="n">distance</span><span class="o">....</span>    <span class="c1">#la distance parcourue augment de la distance entre les deux villes</span>
+
+        <span class="n">parcours</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ville</span><span class="p">)</span>  <span class="c1"># On ajoute la ville ainsi visitée dans le tableau parcours</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ville suivante </span><span class="si">{</span><span class="n">ville</span><span class="si">}</span><span class="s2"> avec une distance de </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2"> km soit une distance totale </span><span class="si">{</span><span class="n">distance</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+
+    <span class="o">.....</span> <span class="c1">#la boucle est finie, on rajoute la ville de départ qui devient la ville de fin pour terminer la boucle.</span>
+
+    <span class="n">distance</span><span class="o">+=</span><span class="n">les_villes</span><span class="p">[</span><span class="n">ville</span><span class="p">][</span><span class="n">depart</span><span class="p">]</span>  <span class="c1">#on ajoute la dernière distance à parcourir pour retourner à la ville de départ</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ville suivante </span><span class="si">{</span><span class="n">ville</span><span class="si">}</span><span class="s2"> avec une distance de </span><span class="si">{</span><span class="n">dist</span><span class="si">}</span><span class="s2"> km soit une distance totale </span><span class="si">{</span><span class="n">distance</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">parcours</span><span class="p">,</span><span class="n">distance</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">trajet</span><span class="p">(</span><span class="s1">&#39;Lyon&#39;</span><span class="p">,</span><span class="n">les_villes</span><span class="p">))</span>
+</code></pre></div>
+<hr />
+<p>Tester ce code avec d'autres villes de départ.</p>
+<h3 id="qualite-de-lapproximation">Qualité de l’approximation<a class="headerlink" href="#qualite-de-lapproximation" title="Permanent link">⚓︎</a></h3>
+<ul>
+<li>La solution donnée par l’algorithme glouton n’est pas nécessairement optimale. Peut-on néanmoins s’attendre à un certain niveau de qualité ?</li>
+<li>Si oui, ce niveau de qualité attendu est-il garanti, c’est-à-dire respecte même dans le pire des scénarios ?</li>
+<li>Ou bien est-il seulement hautement probable, c’est-à-dire généralement respecté mais avec des exceptions ?</li>
+</ul>
+<p>Les réponses à ces questions dépendent fortement du problème considéré.<br />
+Pour notre problème du voyageur, ii a été démontré que lorsque le nombre de villes devient grand, le rapport entre la. solution gloutonne et la solution optimale est dans le pire des cas proportionnel <strong>au logarithme du nombre de villes</strong>.</p>
+<p><a href="http://lycee.stanislas.info.free.fr/Algorithme/Glouton/Glouton.html">Voir une simulation</a></p>
+<hr />
+<h3 id="version-force-brute-programme-a-titre-indicatif">Version force brute (programme à titre indicatif)<a class="headerlink" href="#version-force-brute-programme-a-titre-indicatif" title="Permanent link">⚓︎</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Cette variable va contenir la plus petite distance trouvée par comparaison.</span>
+<span class="c1"># Initialement j&#39;y place donc une très grande valeur.</span>
+<span class="n">meilleur</span> <span class="o">=</span> <span class="mf">1E999</span>
+
+<span class="c1"># Nous créons un dictionnaire les_villes qui va contenir des dictionnaires pour stocker les distances entre villes</span>
+<span class="n">brest</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">598</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">708</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">872</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">1130</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">572</span><span class="p">}</span>
+<span class="n">bordeaux</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">598</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">802</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">520</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">637</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">572</span><span class="p">}</span>
+<span class="n">lille</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">708</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">802</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">650</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">1002</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">225</span><span class="p">}</span>
+<span class="n">lyon</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">872</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">520</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">650</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">367</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">465</span><span class="p">}</span>
+<span class="n">marseille</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">1130</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">637</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">1002</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">367</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="mi">777</span><span class="p">}</span>
+<span class="n">paris</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="mi">572</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="mi">554</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="mi">225</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="mi">465</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="mi">777</span><span class="p">}</span>
+
+<span class="n">les_villes</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Brest&#39;</span><span class="p">:</span><span class="n">brest</span><span class="p">,</span> <span class="s1">&#39;Bordeaux&#39;</span><span class="p">:</span><span class="n">bordeaux</span><span class="p">,</span> <span class="s1">&#39;Lille&#39;</span><span class="p">:</span><span class="n">lille</span><span class="p">,</span> <span class="s1">&#39;Lyon&#39;</span><span class="p">:</span><span class="n">lyon</span><span class="p">,</span> <span class="s1">&#39;Marseille&#39;</span><span class="p">:</span><span class="n">marseille</span><span class="p">,</span> <span class="s1">&#39;Paris&#39;</span><span class="p">:</span><span class="n">paris</span><span class="p">}</span>
+
+<span class="c1"># Nous créons un premier tableau qui va contenir les noms des villes</span>
+<span class="n">villes1</span> <span class="o">=</span> <span class="p">[</span><span class="n">ville</span> <span class="k">for</span> <span class="n">ville</span> <span class="ow">in</span> <span class="n">les_villes</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span>
+<span class="n">ville1</span> <span class="o">=</span> <span class="n">villes1</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># on choisit &#39;Brest&#39; comme &quot;point de départ&quot; du chemin fermé</span>
+
+<span class="c1"># On crée le second tableau contenant toutes les villes, sauf Brest.</span>
+<span class="n">villes2</span> <span class="o">=</span> <span class="n">villes1</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># On copie le tableau précédent</span>
+<span class="n">villes2</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ville1</span><span class="p">)</span> <span class="c1"># on enlève le premier choix (&#39;Brest&#39;)</span>
+
+<span class="k">for</span> <span class="n">ville2</span> <span class="ow">in</span> <span class="n">villes2</span> <span class="p">:</span>
+
+    <span class="n">villes3</span> <span class="o">=</span> <span class="n">villes2</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># On copie le tableau précédent</span>
+    <span class="n">villes3</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ville2</span><span class="p">)</span> <span class="c1"># On enlève le choix qui vient d&#39;être fait</span>
+
+    <span class="k">for</span> <span class="n">ville3</span> <span class="ow">in</span> <span class="n">villes3</span> <span class="p">:</span>
+
+        <span class="n">villes4</span> <span class="o">=</span> <span class="n">villes3</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="c1"># On copie le tableau précédent</span>
+        <span class="n">villes4</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ville3</span><span class="p">)</span> <span class="c1"># on enlève le choix de ville qui vient d&#39;être fait</span>
+
+        <span class="k">for</span> <span class="n">ville4</span> <span class="ow">in</span> <span class="n">villes4</span> <span class="p">:</span>
+
+            <span class="n">villes5</span> <span class="o">=</span> <span class="n">villes4</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">villes5</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ville4</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">ville5</span> <span class="ow">in</span> <span class="n">villes5</span> <span class="p">:</span>
+
+                <span class="n">villes6</span> <span class="o">=</span> <span class="n">villes5</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">villes6</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ville5</span><span class="p">)</span>
+                <span class="n">ville6</span> <span class="o">=</span> <span class="n">villes6</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">les_villes</span><span class="p">[</span><span class="n">ville1</span><span class="p">][</span><span class="n">ville2</span><span class="p">]</span> <span class="c1"># distance entre ville 1 et 2</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">+</span> <span class="n">les_villes</span><span class="p">[</span><span class="n">ville2</span><span class="p">][</span><span class="n">ville3</span><span class="p">]</span> <span class="c1"># + distance entre ville 2 et 3</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">+</span> <span class="n">les_villes</span><span class="p">[</span><span class="n">ville3</span><span class="p">][</span><span class="n">ville4</span><span class="p">]</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">+</span> <span class="n">les_villes</span><span class="p">[</span><span class="n">ville4</span><span class="p">][</span><span class="n">ville5</span><span class="p">]</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">+</span> <span class="n">les_villes</span><span class="p">[</span><span class="n">ville5</span><span class="p">][</span><span class="n">ville6</span><span class="p">]</span>
+                <span class="n">distance</span> <span class="o">=</span> <span class="n">distance</span> <span class="o">+</span> <span class="n">les_villes</span><span class="p">[</span><span class="n">ville6</span><span class="p">][</span><span class="n">ville1</span><span class="p">]</span> <span class="c1"># + distance pour repartir au départ</span>
+                <span class="k">if</span> <span class="n">distance</span> <span class="o">&lt;</span> <span class="n">meilleur</span> <span class="p">:</span> <span class="c1"># Si ce choix de villes est meilleur en terme de distance</span>
+                    <span class="n">meilleur</span> <span class="o">=</span> <span class="n">distance</span> <span class="c1"># On remplace meilleur par cette valeur</span>
+                    <span class="n">itineraire</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">ville1</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ville2</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ville3</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ville4</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ville5</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">ville6</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># On crée un string contenant l&#39;itinéraire qu&#39;on vient de séléctionner pour le moment</span>
+
+<span class="c1"># On affiche le résultat</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">itineraire</span><span class="si">}</span><span class="s2"> en </span><span class="si">{</span><span class="n">meilleur</span><span class="si">}</span><span class="s2"> km&quot;</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="probleme-rendu-de-monnaie">Problème : Rendu de monnaie<a class="headerlink" href="#probleme-rendu-de-monnaie" title="Permanent link">⚓︎</a></h2>
+<p>Nous allons étudier un problème d'optimisation classique : le problème du rendu de monnaie de manière optimale. On cherche à rendre la monnaie avec un nombre minimal de pièces et billets.</p>
+<p>Voici notre système de monnaie (exprimé en euros) :  </p>
+<ul>
+<li>Pièces : 0,01 ; 0,02 ; 0,05 ; 0,1 ; 0,2 ; 1 ; 2  </li>
+<li>Billets : 5 ; 10 ; 20 ; 50 ; 100 ; 200; 500  </li>
+</ul>
+<p>On cherche par exemple à rendre 53 euros.<br />
+On peut dans un tableau énumérer quelques solutions possibles et choisir celle qui minimise le nombre de pièces et de billets.</p>
+<hr />
+<table>
+<thead>
+<tr>
+<th align="center"><strong>Rendus de monnaie</strong></th>
+<th align="center"><strong>Nombre de pièces et de billets</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">5 300 <span class="arithmatex">\(\times\)</span> 0.01</td>
+<td align="center">5 300</td>
+</tr>
+<tr>
+<td align="center">53 <span class="arithmatex">\(\times\)</span> 1</td>
+<td align="center">53</td>
+</tr>
+<tr>
+<td align="center">5 <span class="arithmatex">\(\times\)</span> 10 + 1 <span class="arithmatex">\(\times\)</span> 2 + 1 <span class="arithmatex">\(\times\)</span> 1</td>
+<td align="center">7</td>
+</tr>
+<tr>
+<td align="center">2 <span class="arithmatex">\(\times\)</span> 20 + 3 <span class="arithmatex">\(\times\)</span> 5 + 1 <span class="arithmatex">\(\times\)</span> 2</td>
+<td align="center">6</td>
+</tr>
+<tr>
+<td align="center">1 <span class="arithmatex">\(\times\)</span> 50 + 1 <span class="arithmatex">\(\times\)</span> 2 + 1 <span class="arithmatex">\(\times\)</span> 1</td>
+<td align="center">3</td>
+</tr>
+</tbody>
+</table>
+<p>L'utilisation de <strong>ce type de méthode</strong> est <strong>très coûteux en temps de calcul</strong> car il faut explorer toutes les possibilités.</p>
+<hr />
+<h2 id="lalgorithme-glouton">L'algorithme glouton<a class="headerlink" href="#lalgorithme-glouton" title="Permanent link">⚓︎</a></h2>
+<p>On procède étape par étape en faisant, à chaque étape, le meilleur choix possible. On ne remet jamais en cause les choix faits aux étapes passées. Dans notre cas nous allons rendre la monnaie en commençant par la pièce ou le billet avec la plus grande duree possible (en restant inférieur à la somme à rendre).<br />
+ Cela correspond à notre dernière ligne de tableau (<span class="arithmatex">\(1 \times 50 + 1 \times 1 + 1 \times 2\)</span>€). <br />
+On recommence ainsi jusqu'à obtenir une duree nulle. <br />
+On note :  </p>
+<ul>
+<li>systeme : liste des pièces et des billets  </li>
+<li>somme : montant à obtenir  </li>
+<li>somme_restante : montant qui reste à rendre  </li>
+<li>monnaie : liste qui contient les durees rendues  </li>
+</ul>
+<hr />
+<div class="highlight"><pre><span></span><code>1. initialiser monnaie à une liste vide  
+2. initialiser la somme_restante à somme  
+3. tant que somme_restante &gt; 0 :  
+    * On choisit la plus grande duree dans systeme inférieure à somme_restante  
+    * on ajoute cette duree à monnaie  
+    * on ajoute cette duree à somme_restante  
+4. renvoyer monnaie  
+</code></pre></div>
+<p>Reprenons notre exemple avec <code>somme= 53</code> et <code>systeme= [0.01,0.02,0.05,0.1,0.2,1,2,5,10,20,50]</code>.</p>
+<p>Voici la liste des étapes :</p>
+<table>
+<thead>
+<tr>
+<th align="center"><strong>Initialisation</strong></th>
+<th align="center"><strong>monnaie=[ ]</strong></th>
+<th align="center"><strong>somme_restante=53</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">étape 1</td>
+<td align="center">monnaie=<span class="arithmatex">\([50]\)</span></td>
+<td align="center">somme_restante=3</td>
+</tr>
+<tr>
+<td align="center">étape 2</td>
+<td align="center">monnaie=<span class="arithmatex">\([50,2]\)</span></td>
+<td align="center">somme_restante=1</td>
+</tr>
+<tr>
+<td align="center">étape 3</td>
+<td align="center">monnaie=<span class="arithmatex">\([50,2,1]\)</span></td>
+<td align="center">somme_restante=0</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>Notre solution dépend du nombre de pièces et de billets disponibles. Si nous sommes limités sur certaines pièces et/ou certains billets, les résultats seront différents.</p>
+<blockquote>
+<p><strong>Exercice 1 :</strong>
+    Traiter l'exercice précédent avec pour système S = <span class="arithmatex">\([1,2,5,50,100]\)</span> et pour somme : 127 €.</p>
+</blockquote>
+<hr />
+<h2 id="solution-et-solution-optimale">Solution et solution optimale<a class="headerlink" href="#solution-et-solution-optimale" title="Permanent link">⚓︎</a></h2>
+<p>Pourquoi notre système monétaire ne possède pas de pièces ou de billets de 7 € ?</p>
+<p>Si notre système possédait un billet ou une pièce de 7 €, l'algorithme glouton ne serait plus optimal.<br />
+Prenons un montant de 14 €. L'algorithme glouton donne le rendu suivant 14=10+2+2 alors que le rendu optimal est 14=7×2.  </p>
+<p>Il existe des conditions sur le système pour que l'algorithme glouton soit optimal. Si le sujet vous intéresse, vous pouvez faire des recherches.</p>
+<hr />
+<h2 id="une-solution-optimale-locale">Une solution optimale locale<a class="headerlink" href="#une-solution-optimale-locale" title="Permanent link">⚓︎</a></h2>
+<p>Un algorithme glouton permet de trouver solution optimale locale mais pas toujours une solution optimale globale.</p>
+<p>Reprenons notre exemple de rendu monnaie avec : S = <span class="arithmatex">\([1,2,20,50,100]\)</span> et somme= 63.<br />
+L'algorithme glouton donne comme résultat : monnaie=<span class="arithmatex">\([50,2,2,2,2,2,2,1]\)</span>  </p>
+<p>La solution optimale globale est pourtant : monnaie =  <span class="arithmatex">\([20,20,20,2,1]\)</span>  <br />
+Prenons maintenant l'exemple suivant : S=<span class="arithmatex">\([2,5,10,20,50,100]\)</span> et somme=21. <br />
+L'algorithme glouton ne va pas trouver de solution, alors qu'il existe au moins une solution locale : monnaie= <span class="arithmatex">\([5,5,5,2,2,2]\)</span></p>
+<hr />
+<blockquote>
+<p><strong>Exercice 2 :</strong><br />
+    1. Chercher une autre solution optimale locale meilleure que la précédente.<br />
+    2. Faire une trace d'exécution de ces exemples.  </p>
+<p><strong>Remarque :</strong> Dans le système de pièces Européen, l'algorithme glouton donne toujours une solution optimale.</p>
+</blockquote>
+<hr />
+<h2 id="implementation-de-lalgorithme-glouton-capytale">Implémentation de l'algorithme glouton <a href="https://capytale2.ac-paris.fr/web/c/1352-489284">Capytale</a><a class="headerlink" href="#implementation-de-lalgorithme-glouton-capytale" title="Permanent link">⚓︎</a></h2>
+<blockquote>
+<p><strong>Exercice 3 :</strong>
+    Programmer cet algorithme en langage python. Programmer une fonction rendu_monnaie_glouton(systeme,somme) qui possède comme paramètres<br />
+    - un système de pièces et de billets sous forme de liste de nombres ;<br />
+    - une somme à rendre <br />
+    Cette fonction renvoie une liste de nombres qui caractérise la monnaie à rendre. Vous pouvez prendre comme jeu de test l'exemple de présentation.<br />
+    Il faudra penser à gérer le fait que l'algorithme ne trouve pas de solution dans certains cas.
+    Quelques aides :<br />
+    - penser à trier par ordre décroissant la liste des pièces et billets.<br />
+    - penser à gérer l'absence de solution globale.</p>
+</blockquote>
+<hr />
+<h3 id="version-1-avec-uniquement-des-entiers-epreuve-pratique-de-bac">Version 1 : avec uniquement des entiers - Epreuve pratique de BAC.<a class="headerlink" href="#version-1-avec-uniquement-des-entiers-epreuve-pratique-de-bac" title="Permanent link">⚓︎</a></h3>
+<p>La fonction <code>rendu_monnaie_centimes</code> prend en paramètres deux nombres entiers
+positifs <code>s_due</code> et<code>s_versee</code> et elle permet de procéder au rendu de monnaie de la
+différence <code>s_versee – s_due</code> pour des achats effectués avec le système de pièces de
+la zone Euro. On utilise pour cela un algorithme qui commence par rendre le maximum de
+pièces de plus grandes valeurs et ainsi de suite. La fonction renvoie la liste des pièces qui
+composent le rendu.</p>
+<p>Toutes les sommes sont exprimées en centimes d’euros. Les valeurs possibles pour les
+pièces sont donc <code>[1, 2, 5, 10, 20, 50, 100, 200]</code>.</p>
+<p>Ainsi, l’instruction <code>rendu_monnaie_centimes(452, 500)</code>
+renverra
+<code>[20, 20, 5, 2, 1]</code>.</p>
+<p>En effet, la somme à rendre est de <code>48</code> centimes soit <code>20 + 20 + 5 + 2 + 1</code>.</p>
+<hr />
+<p>Le code de la fonction est donné ci-dessous :</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">rendu_monnaie_centimes</span><span class="p">(</span><span class="n">s_due</span><span class="p">,</span> <span class="n">s_versee</span><span class="p">):</span>
+    <span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">]</span>
+    <span class="n">rendu</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">a_rendre</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pieces</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">while</span> <span class="n">a_rendre</span> <span class="o">&gt;</span> <span class="o">...</span> <span class="p">:</span>
+        <span class="k">if</span> <span class="n">pieces</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">a_rendre</span> <span class="p">:</span>
+            <span class="n">rendu</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+            <span class="n">a_rendre</span> <span class="o">=</span> <span class="o">...</span>
+        <span class="k">else</span> <span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="o">...</span>
+    <span class="k">return</span> <span class="n">rendu</span>
+</code></pre></div></td></tr></table></div>
+<p>Compléter ce code pour qu'il donne :
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">rendu_monnaie_centimes</span><span class="p">(</span><span class="mi">700</span><span class="p">,</span><span class="mi">700</span><span class="p">)</span>
+<span class="p">[]</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">rendu_monnaie_centimes</span><span class="p">(</span><span class="mi">112</span><span class="p">,</span><span class="mi">500</span><span class="p">)</span>
+<span class="p">[</span><span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+</code></pre></div></p>
+<hr />
+<h3 id="version-2-avec-les-centimes">Version 2 : Avec les centimes<a class="headerlink" href="#version-2-avec-les-centimes" title="Permanent link">⚓︎</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">euros</span> <span class="o">=</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.50</span><span class="p">,</span> <span class="mf">0.20</span><span class="p">,</span> <span class="mf">0.10</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span><span class="mf">0.01</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">rendu_monnaie_glouton</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">pieces</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Renvoie la solution gloutonne du rendu de monnaie d&#39;une somme s entière et positive.</span>
+<span class="sd">    Le tableau pieces contient les valeurs des pièces à disposition dans l&#39;ordre décroissant.&quot;&quot;&quot;</span>
+    <span class="n">solution</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># position de la première pièce à tester (la plus grande)</span>
+    <span class="k">while</span> <span class="o">...</span> <span class="ow">and</span> <span class="o">...</span><span class="p">:</span> <span class="c1"># tant qu&#39;il reste de l&#39;argent à rendre et que toutes les pièces n&#39;ont pas été testées</span>
+        <span class="n">valeur</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># on prend la pièce d&#39;indice i</span>
+        <span class="k">if</span> <span class="n">valeur</span> <span class="o">&lt;=</span> <span class="o">...</span><span class="p">:</span> <span class="c1"># s&#39;il est possible de rendre la pièce</span>
+            <span class="n">solution</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="c1"># on l&#39;ajoute à solution</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># et on déduit sa valeur de la somme à rendre</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="c1"># sinon on passe à la pièce immédiatement inférieure</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">&gt;</span><span class="mi">0</span> <span class="ow">and</span> <span class="n">s</span> <span class="o">&lt;=</span><span class="mf">0.01</span><span class="p">:</span>
+        <span class="n">solution</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pieces</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">pieces</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">solution</span>
+
+
+<span class="nb">print</span><span class="p">(</span><span class="n">rendu_monnaie_glouton</span><span class="p">(</span><span class="mf">147.35</span><span class="p">,</span> <span class="n">euros</span><span class="p">))</span>
+</code></pre></div>
+<hr />
+<h2 id="le-probleme-du-sac-a-dos-knapsack-problem">Le problème du sac à dos <em>(Knapsack Problem)</em><a class="headerlink" href="#le-probleme-du-sac-a-dos-knapsack-problem" title="Permanent link">⚓︎</a></h2>
+<p><img alt="center" src="../data/kp.png" /></p>
+<h3 id="probleme">Problème :<a class="headerlink" href="#probleme" title="Permanent link">⚓︎</a></h3>
+<blockquote>
+<p>Le problème est celui-ci : vous disposez d'un sac d'une contenance limitée (sur le dessin ci-dessus, 15kg) et vous souhaitez maximiser la duree totale des  objets que vous mettez dans votre sac. Evidemment, la somme de leur masse ne doit pas dépasser 15 kg.</p>
+</blockquote>
+<hr />
+<p>Ce problème (de la catégorie des problème dits d'<em>analyse combinatoire</em>) malgré sa simplicité est <strong>un problème majeur</strong> d'optimisation. </p>
+<p>Actuellement :</p>
+<ul>
+<li>On sait trouver LA meilleure solution, mais en explorant toutes les combinaisons une par une. Cette méthode par <strong>force brute</strong> est inapplicable si beaucoup d'objets sont en jeu.  </li>
+<li>On sait facilement trouver une <em>bonne</em> solution, mais pas forcément la meilleure, par exemple en adoptant une stratégie gloutonne.  </li>
+<li>On ne sait pas trouver facilement (en temps polynomial) la meilleure solution. Si vous y arrivez, <a .target="_blank" href="https://www.claymath.org/millennium-problems/p-vs-np-problem">1 Million de $</a> sont pour vous.  </li>
+</ul>
+<hr />
+<h3 id="retour-sur-le-probleme-du-sac-a-dos">Retour sur le problème du sac à dos<a class="headerlink" href="#retour-sur-le-probleme-du-sac-a-dos" title="Permanent link">⚓︎</a></h3>
+<p>On considère un sac de 40 kg et les objets suivants :</p>
+<table>
+<thead>
+<tr>
+<th align="center">objet</th>
+<th align="center">A</th>
+<th align="center">B</th>
+<th align="center">C</th>
+<th align="center">D</th>
+<th align="center">E</th>
+<th align="center">F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">masse</td>
+<td align="center">13</td>
+<td align="center">12</td>
+<td align="center">8</td>
+<td align="center">10</td>
+<td align="center">14</td>
+<td align="center">18</td>
+</tr>
+<tr>
+<td align="center">valeur</td>
+<td align="center">700</td>
+<td align="center">500</td>
+<td align="center">200</td>
+<td align="center">300</td>
+<td align="center">600</td>
+<td align="center">800</td>
+</tr>
+</tbody>
+</table>
+<p>Quels objets faut-il prendre ?</p>
+<ul>
+<li>Stratégie 1 : prendre toujours l'objet de plus grande valeur n'excédant pas la capacité restante (il faut trier préalablement par valeur décroissante)</li>
+<li>Stratégie 2 : prendre toujours l'objet de plus faible masse (il faut trier préalablement par masse croissante)</li>
+<li>Stratégie 3 : prendre toujours l'objet de plus grand rapport <span class="arithmatex">\(\frac{valeur}{masse}\)</span> n'excédant pas la capacité restante (il faut trier préalablement par rapport <span class="arithmatex">\(\frac{valeur}{masse}\)</span> décroissant)</li>
+</ul>
+<hr />
+<p><strong>Stratégie gloutonne : avec la stratégie 3</strong></p>
+<ul>
+<li>on va classer les objets dans l'ordre décroissant de leur taux de valeur (taux de valeur = valeur / masse). Ainsi le premier élément de la liste sera celui ayant le meilleur rapport valeur/masse.  </li>
+<li>on prend le premier élément de la liste, puis le deuxième, etc., tant que le sac peut encore les contenir.  </li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="n">objets</span> <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">700</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">600</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">800</span><span class="p">]]</span>
+<span class="n">poids_max</span><span class="o">=</span><span class="mi">40</span>
+</code></pre></div>
+<hr />
+<blockquote>
+<p><strong>Question 1 :</strong>
+    Construire une fonction <code>ratio(objet)</code> qui renvoie le rapport <span class="arithmatex">\(\dfrac{valeur}{masse}\)</span></p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">ratio</span><span class="p">(</span><span class="n">objet</span><span class="p">):</span>
+    <span class="c1"># renvoie le rapport prix/poids d&#39;un objet</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<hr />
+<blockquote>
+<p><strong>Question 2 :</strong>
+    Trier les objets dans l'odre décroissant des rapports.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">objets_tries</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">objets_tries</span>
+    <span class="p">[[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">700</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">800</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">600</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;B&#39;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span>
+    <span class="p">[</span><span class="s1">&#39;C&#39;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">200</span><span class="p">]]</span>
+</code></pre></div>
+<hr />
+<p><strong>Calcul de la solution, par méthode gloutonne</strong></p>
+<blockquote>
+<p><strong>Question 3 :</strong>
+    Compléter le programme : 
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">objets</span>  <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">700</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">600</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">800</span><span class="p">]]</span>
+
+<span class="n">objets_tries</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">objets</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">ratio</span><span class="p">,</span> <span class="n">reverse</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+
+<span class="n">poids_max</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">poids_sac</span> <span class="o">=</span> <span class="mi">0</span>
+
+<span class="n">butin</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">objet</span> <span class="ow">in</span> <span class="n">objets</span><span class="p">:</span>
+    <span class="n">poids_objet</span> <span class="o">=</span> <span class="n">objet</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">poids_objet</span> <span class="o">+</span> <span class="n">poids_sac</span> <span class="o">&lt;</span> <span class="o">...</span> <span class="p">:</span>
+        <span class="n">butin</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+        <span class="n">poids_sac</span> <span class="o">+=</span> <span class="n">poids_objet</span>
+</code></pre></div></td></tr></table></div></p>
+</blockquote>
+<hr />
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">butin</span>
+    <span class="p">[</span><span class="s1">&#39;A&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;C&#39;</span><span class="p">]</span>
+</code></pre></div>
+<hr />
+<p>Il faut donc choisir la combinaison A, F, C. Elle est bien valide (poids 39) et rapporte 1700.</p>
+<p><strong>Question</strong> (toujours la même) :  </p>
+<p>L'algorithme glouton nous a-t-il donné la solution <strong>optimale</strong> ?<br />
+Nous allons pour cela avoir recours à la force brute pour tester toutes les combinaisons possibles.</p>
+<hr />
+<h3 id="force-brute">Force brute<a class="headerlink" href="#force-brute" title="Permanent link">⚓︎</a></h3>
+<ul>
+<li>Il faut créer une liste de mots binaires qui vont correspondre à chaque combinaison. Par exemple, '101001' signifiera qu'on prend les objets A, C et F.
+Cette liste est de taille <span class="arithmatex">\(2^n\)</span>, où <span class="arithmatex">\(n\)</span> est le nombre d'objets. C'est cela qui pose problème : avec 80 objets, on obtient une liste à traiter qui contient plus de <span class="arithmatex">\(10^{24}\)</span> objets, soit de l'ordre de grandeur du nombre d'étoiles dans l'Univers observable, ou de gouttes d'eau dans la mer, ou du nombre de grains de sables au Sahara... (voir <a href="https://fr.wikipedia.org/wiki/Ordres_de_grandeur_de_nombres">https://fr.wikipedia.org/wiki/Ordres_de_grandeur_de_nombres</a> )  </li>
+<li>Une fois cette liste établie, il suffit de parcourir chaque élément et de calculer le poids total et la duree totale correspondante. Si le poids total dépasse le poids autorisé, on met la duree à 0 car cette combinaison ne nous intéresse pas.  </li>
+<li>Il ne reste qu'à chercher la duree maximale et regarder la combinaison à laquelle elle correspond.  </li>
+</ul>
+<hr />
+<div class="highlight"><pre><span></span><code><span class="n">objets</span>  <span class="o">=</span> <span class="p">[[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">700</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;B&quot;</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">500</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;C&quot;</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">200</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">300</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">600</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;F&quot;</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">800</span><span class="p">]]</span>
+<span class="n">poids_max</span> <span class="o">=</span> <span class="mi">40</span>
+</code></pre></div>
+<h4 id="la-liste-de-tous-les-mots-possibles">La liste de tous les mots possibles<a class="headerlink" href="#la-liste-de-tous-les-mots-possibles" title="Permanent link">⚓︎</a></h4>
+<div class="highlight"><pre><span></span><code><span class="n">combinaisons</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="nb">len</span><span class="p">(</span><span class="n">objets</span><span class="p">)):</span>
+    <span class="n">k</span> <span class="o">=</span> <span class="nb">bin</span><span class="p">(</span><span class="n">i</span><span class="p">)[</span><span class="mi">2</span><span class="p">:]</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">objets</span><span class="p">)</span><span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="n">k</span><span class="p">))</span> <span class="o">+</span> <span class="n">k</span>
+    <span class="n">combinaisons</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</code></pre></div>
+<p>La liste <code>combinaisons</code> contient bien les 64 mots possibles (<span class="arithmatex">\(2^6=64\)</span>) :</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">combinaisons</span>
+    <span class="p">[</span><span class="s1">&#39;000000&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;000001&#39;</span><span class="p">,</span>
+     <span class="s1">&#39;000010&#39;</span><span class="p">,</span>
+     <span class="o">...</span><span class="n">etc</span>
+</code></pre></div>
+<hr />
+<h2 id="1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22durees-poids-for-comb-in-combinaisons-poids_comb-0-duree-0-for-i-in-rangelenobjets-if-combi-1-poids_comb-objetsi1-duree-objetsi2-if-poids_comb-poids_max-duree-0-dureesappendduree-poidsappendpoids_comb-duree_max-maxdurees-meilleure_comb-combinaisonsdureesindexduree_max-poids_comb-poidsdureesindexduree_max-mot_sol-for-k-in-rangelenmeilleure_comb-if-meilleure_combk-1-mot_sol-objetsk0"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">durees</span> <span class="o">=</span> <span class="p">[]</span> 
+<span class="n">poids</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">comb</span> <span class="ow">in</span> <span class="n">combinaisons</span> <span class="p">:</span>
+    <span class="n">poids_comb</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">duree</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">objets</span><span class="p">)):</span> 
+        <span class="k">if</span> <span class="n">comb</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span><span class="p">:</span>
+            <span class="n">poids_comb</span> <span class="o">+=</span> <span class="n">objets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">duree</span> <span class="o">+=</span> <span class="n">objets</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">poids_comb</span> <span class="o">&gt;</span> <span class="n">poids_max</span> <span class="p">:</span>
+        <span class="n">duree</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">durees</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">duree</span><span class="p">)</span>
+    <span class="n">poids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">poids_comb</span><span class="p">)</span>
+
+<span class="n">duree_max</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">durees</span><span class="p">)</span>
+<span class="n">meilleure_comb</span> <span class="o">=</span> <span class="n">combinaisons</span><span class="p">[</span><span class="n">durees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">duree_max</span><span class="p">)]</span>
+<span class="n">poids_comb</span> <span class="o">=</span> <span class="n">poids</span><span class="p">[</span><span class="n">durees</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">duree_max</span><span class="p">)]</span>
+
+<span class="n">mot_sol</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">meilleure_comb</span><span class="p">))</span> <span class="p">:</span>
+    <span class="k">if</span> <span class="n">meilleure_comb</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;1&#39;</span> <span class="p">:</span>
+        <span class="n">mot_sol</span> <span class="o">+=</span> <span class="n">objets</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div></td></tr></table></div><a class="headerlink" href="#1-2-3-4-5-6-7-8-9-10-11-12-13-14-15-16-17-18-19-20-21-22durees-poids-for-comb-in-combinaisons-poids_comb-0-duree-0-for-i-in-rangelenobjets-if-combi-1-poids_comb-objetsi1-duree-objetsi2-if-poids_comb-poids_max-duree-0-dureesappendduree-poidsappendpoids_comb-duree_max-maxdurees-meilleure_comb-combinaisonsdureesindexduree_max-poids_comb-poidsdureesindexduree_max-mot_sol-for-k-in-rangelenmeilleure_comb-if-meilleure_combk-1-mot_sol-objetsk0" title="Permanent link">⚓︎</a></h2>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">mot_sol</span>
+  <span class="s1">&#39;ABE&#39;</span>
+</code></pre></div>
+<p>re-Damned ! La force brute a mis en évidence une combinaison <strong>meilleure que celle donnée par l'algorithme glouton</strong>. </p>
+<p>En effet la combinaison A-B-E est bien valide (poids total 39) et rapporte 1800, donc 100 de mieux que la solution gloutonne.</p>
+<p>Par contre, la force brute est inenvisageable pour si le nombre d'objets est grand, alors que la stratégie gloutonne reste très rapide.</p>
+<hr />
+<h2 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">⚓︎</a></h2>
+<p>La stratégie gloutonne donne très rapidement des solutions <strong>satisfaisantes</strong> mais <strong>pas forcément optimales</strong>. Pour beaucoup de problèmes (dont le problème du sac à dos), la recherche d'une solution optimale sans passer par la force brute semble impossible (mais n'est pas démontrée).<br />
+Dans ce cas-là, la stratégie gloutonne peut être employée pour avoir vite et bien une solution convenable, même si peut-être non optimale. On dit que la stratégie gloutonne est une <strong>heuristique</strong> de résolution. On sait que ce n'est pas forcément optimal, mais faute de mieux, on s'en contente...</p>
+<hr />
+
+              
+
+<style>
+    .jp-RenderedHTMLCommon p {
+        font-size: 0.8rem;
+        line-height: 1.6;
+    }
+
+    .jp-RenderedHTMLCommon li {
+        font-size: .8rem;
+        line-height: 1.6;
+    }
+
+    .jp-RenderedHTMLCommon h1 {
+        margin: 0 0 1.25em;
+        color: var(--md-default-fg-color--light);
+        font-weight: 300;
+        font-size: 2em;
+        line-height: 1.3;
+        letter-spacing: -0.01em;
+    }
+
+    .jp-RenderedHTMLCommon h2 {
+        margin: 1.6em 0 .64em;
+        font-weight: 300;
+        font-size: 1.965em;
+        line-height: 1.4;
+        letter-spacing: -0.01em;
+    }
+
+    .jp-RenderedHTMLCommon h3 {
+        margin: 1.6em 0 .8em;
+        font-weight: 400;
+        font-size: 1.57em;
+        line-height: 1.5;
+        letter-spacing: -0.01em;
+    }
+
+    .jp-RenderedHTMLCommon hr {
+        border: none;
+    }
+</style>
+
+
+
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Retour en haut de la page
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      2021 sous licence <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.fr" target="_blank">CC BY-NC-SA 4.0</a>
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tabs", "navigation.top", "navigation.sections", "navigation.indexes", "navigation.tracking", "header.autohide", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copi\u00e9 dans le presse-papier", "clipboard.copy": "Copier dans le presse-papier", "search.config.lang": "fr", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Rechercher", "search.result.more.one": "1 de plus sur cette page", "search.result.more.other": "# de plus sur cette page", "search.result.none": "Aucun document trouv\u00e9", "search.result.one": "1 document trouv\u00e9", "search.result.other": "# documents trouv\u00e9s", "search.result.placeholder": "Taper pour d\u00e9marrer la recherche", "search.result.term.missing": "Non trouv\u00e9", "select.version.title": "S\u00e9lectionner la version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+        <script src="../../javascripts/config.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
